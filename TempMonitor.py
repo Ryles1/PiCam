@@ -16,24 +16,40 @@ class TempMonitor:
         self.weather_api = weather_api
 
     def get_temps(self):
-        temp = int(popen("vcgencmd measure_temp").readline())
+        # need to parse this response, gives back a string "temp=31.5'C"
+        temp_string = popen("vcgencmd measure_temp").readline()
+        temp_num = temp_string.split('=')[1][:4]
+        temp = float(temp_num)
         now = dt.datetime.now(tz=self.tzdelta)
-        ambient = self.get_ambient(self.city, self.province, self.country)
+        ambient = self.get_ambient(self.city, self.province, self.country, self.weather_api)
         self.cpu_temps['temps'].append(temp)
         self.cpu_temps['times'].append(now)
+        self.ambient_temps['temps'].append(ambient)
+        self.ambient_temps['times'].append(now)
         return
 
     def line_plot(self):
         times = [t.strftime("%H:%M") for t in self.cpu_temps['times']]
+        #TODO: add in a second plot for ambient temps
         plt.plot(x=times, y=self.cpu_temps['temps'])
         plt.xlabel('Time')
         plt.ylabel('Temp (degC)')
-        plt.show()
+        filename = dt.datetime.strftime(dt.datetime.now(), "%D/%Y") + '.jpg'
+        plt.savefig(filename, bbox_inches='tight')
         return
 
-    def get_ambient(self, city, prov, country, api_key):
-        url = f'api.openweathermap.org/data/2.5/weather?q={city},{prov},{country}&appid={api_key}'
-        data = requests.get(url)
+    def get_ambient(self, city=None, prov=None, country=None, api_key=None):
+        # The below is to allow for testing without having to explicitly call the location and api key
+        if city is None:
+            city = self.city
+        if prov is None:
+            prov = self.province
+        if country is None:
+            country = self.country
+        if api_key is None:
+            api_key = self.weather_api
+        url = f'https://api.openweathermap.org/data/2.5/weather?q={city},{prov},{country}&appid={api_key}'
+        data = requests.get(url).text
         weather_data = json.loads(data)
         ambient_temp = float(weather_data['main']['temp'])
         return ambient_temp
