@@ -16,6 +16,7 @@ COUNTRY = getenv('COUNTRY')
 
 if __name__ == '__main__':
         m = TempMonitor.TempMonitor(CITY, PROVINCE, COUNTRY, API_KEY)
+        # TODO: UPDATE THIS TO TAKE ARGUMENT FLAGS FOR TIME, MEASUREMENTS
         try:
             num_measurements = int(sys.argv[1])
         except IndexError:
@@ -25,7 +26,7 @@ if __name__ == '__main__':
                     m.get_temps()
                     sleep(1800)
         except KeyboardInterrupt:
-            with open('temp_log.txt') as f:
+            with open('temp_log.txt', 'w') as f:
                 for i in range(len(m.cpu_temps.values())):
                     temp = m.cpu_temps.values()[0][i]
                     time_dt = m.cpu_temps.values()[1][i]
