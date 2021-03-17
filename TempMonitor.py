@@ -34,7 +34,7 @@ class TempMonitor:
         plt.plot(x=times, y=self.cpu_temps['temps'])
         plt.xlabel('Time')
         plt.ylabel('Temp (degC)')
-        filename = dt.datetime.strftime(dt.datetime.now(), "%D/%Y") + '.jpg'
+        filename = dt.datetime.strftime(dt.datetime.now(), "%D/%Y") + '_Temp.jpg'
         plt.savefig(filename, bbox_inches='tight')
         return
 
