@@ -32,7 +32,7 @@ if __name__ == '__main__':
                     time_dt = m.cpu_temps.values()[1][i]
                     time_str = time_dt.datetime.strftime("%D/%M/%Y %H:%M:%S")
                     f.write(f'Time: {time_str}, temp: {temp}')
+            print('Program exited by keyboard interrupt')
+            m.line_plot()
+            raise SystemExit
 
-
-
-# TODO: use weather API to also get ambient temperature and store in array, and plot that as well
