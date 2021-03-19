@@ -30,7 +30,7 @@ if __name__ == '__main__':
             for i in range(len(m.cpu_temps.values())):
                 temp = list(m.cpu_temps.values())[0][i]
                 time_dt = list(m.cpu_temps.values())[1][i]
-                time_str = time_dt.datetime.strftime("%D/%M/%Y %H:%M:%S")
+                time_str = time_dt.strftime("%D/%M/%Y %H:%M:%S")
                 f.write(f'Time: {time_str}, temp: {temp}')
         print('Program exited by keyboard interrupt')
         m.line_plot()
