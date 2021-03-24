@@ -34,5 +34,6 @@ if __name__ == '__main__':
                 f.write(f'Time: {time_str}, temp: {temp}')
         print('Program exited by keyboard interrupt')
         m.line_plot()
+        sleep(10)
         raise SystemExit
 
