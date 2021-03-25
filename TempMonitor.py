@@ -28,14 +28,17 @@ class TempMonitor:
         self.ambient_temps['times'].append(now)
         return
 
-    def line_plot(self):
-        times = [t.strftime("%H:%M") for t in self.cpu_temps['times']]
+    def line_plot(self, times=None, temps=None):
+        times = times if times is not None else [t.strftime("%H:%M") for t in self.cpu_temps['times']]
+        temps = temps if temps is not None else self.cpu_temps['temps']
         #TODO: add in a second plot for ambient temps
-        plt.plot(x=times, y=self.cpu_temps['temps'])
+        plt.plot(times, temps)
         plt.xlabel('Time')
         plt.ylabel('Temp (degC)')
         filename = dt.datetime.strftime(dt.datetime.now(), "%D/%Y") + '_Temp.jpg'
-        plt.savefig(filename, bbox_inches='tight')
+        #TODO: first argument to savefig needs to be file-like or pathlike
+        with open(filename, 'wb') as f:
+            plt.savefig(f, bbox_inches='tight', pad_inches=0.1)
         return
 
     def get_ambient(self, city=None, prov=None, country=None, api_key=None):

@@ -1,7 +1,7 @@
 import unittest
 from TempMonitor import TempMonitor
 import dotenv
-from os import getenv
+from os import getenv, listdir
 import datetime
 import matplotlib.pyplot as plt
 
@@ -17,7 +17,10 @@ class TestTempMonitor(unittest.TestCase):
         temps = [1, 2, 3, 4, 5]
         delta = datetime.timedelta(minutes=15)
         times = [datetime.datetime.now() + i * delta for i in range(5)]
-        pass
+        m.line_plot(times=times, temps=temps)
+        files = listdir()
+        check = True in list(map(lambda x: x.endswith('.jpg'), files))
+        self.assertTrue(check)
 
 
     def test_ambient(self):

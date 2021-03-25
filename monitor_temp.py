@@ -1,11 +1,11 @@
 #! python3
 
-from time import sleep
 import sys
 import TempMonitor
 from os import getenv
 import dotenv
 import keyboard
+import datetime
 
 
 dotenv.load_dotenv()
@@ -18,14 +18,18 @@ COUNTRY = getenv('COUNTRY')
 if __name__ == '__main__':
     m = TempMonitor.TempMonitor(CITY, PROVINCE, COUNTRY, API_KEY)
     # TODO: UPDATE THIS TO TAKE ARGUMENT FLAGS FOR TIME, MEASUREMENTS
+    start = datetime.datetime.now()
+    fifteen = datetime.timedelta(minutes=15)
     try:
         num_measurements = int(sys.argv[1])
     except IndexError:
         num_measurements = 40
-    for _ in range(num_measurements):
-        m.get_temps()
-        sleep(1800)
-        if keyboard.is_pressed('q'):
+    m.get_temps()
+    while True:
+        diff = datetime.datetime.now() - start
+        if diff > fifteen:
+            m.get_temps()
+        elif keyboard.is_pressed('q'):
             with open('temp_log.txt', 'w') as f:
                 for i in range(len(m.cpu_temps.values())):
                     temp = list(m.cpu_temps.values())[0][i]
@@ -34,4 +38,3 @@ if __name__ == '__main__':
                     f.write(f'Time: {time_str}, temp: {temp}')
             m.line_plot()
             sys.exit()
-
