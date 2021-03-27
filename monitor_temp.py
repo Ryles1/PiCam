@@ -38,3 +38,10 @@ if __name__ == '__main__':
                     f.write(f'Time: {time_str}, temp: {temp}')
             m.line_plot()
             sys.exit()
+    with open('temp_log.txt', 'w') as f:
+        for i in range(len(m.cpu_temps.values())):
+            temp = list(m.cpu_temps.values())[0][i]
+            time_dt = list(m.cpu_temps.values())[1][i]
+            time_str = time_dt.strftime("%D/%M/%Y %H:%M:%S")
+            f.write(f'Time: {time_str}, temp: {temp}')
+    m.line_plot()
