@@ -25,7 +25,7 @@ if __name__ == '__main__':
     except IndexError:
         num_measurements = 40
     m.get_temps()
-    while True:
+    while len(m.cpu_temps['temps'] < num_measurements):
         diff = datetime.datetime.now() - start
         if diff > fifteen:
             m.get_temps()
