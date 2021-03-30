@@ -35,10 +35,8 @@ class TempMonitor:
         plt.plot(times, temps)
         plt.xlabel('Time')
         plt.ylabel('Temp (degC)')
-        filename = dt.datetime.strftime(dt.datetime.now(), "%D/%Y") + '_Temp.jpg'
-        #TODO: first argument to savefig needs to be file-like or pathlike
-        with open(filename, 'wb') as f:
-            plt.savefig(f, bbox_inches='tight', pad_inches=0.1)
+        filename = dt.datetime.strftime(dt.datetime.now(), "%d_%m_%Y") + '_Temp.png'
+        plt.savefig(filename, bbox_inches='tight', pad_inches=0.1)
         return
 
     def get_ambient(self, city=None, prov=None, country=None, api_key=None):

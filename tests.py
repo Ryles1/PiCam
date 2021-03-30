@@ -3,7 +3,6 @@ from TempMonitor import TempMonitor
 import dotenv
 from os import getenv, listdir
 import datetime
-import matplotlib.pyplot as plt
 
 dotenv.load_dotenv()
 API_KEY = getenv('WEATHER_API')
