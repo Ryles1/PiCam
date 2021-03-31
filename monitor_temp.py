@@ -4,7 +4,6 @@ import sys
 import TempMonitor
 from os import getenv
 import dotenv
-import keyboard
 import datetime
 
 
@@ -30,10 +29,6 @@ if __name__ == '__main__':
         diff = datetime.datetime.now() - start
         if diff > fifteen:
             m.get_temps()
-        elif keyboard.is_pressed('q'):
-            m.save_log()
-            m.line_plot()
-            sys.exit()
     m.save_log()
     m.line_plot()
 
