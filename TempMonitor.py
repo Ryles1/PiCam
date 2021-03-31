@@ -40,7 +40,7 @@ class TempMonitor:
         plt.ylabel('Temp (degC)')
         filename = dt.datetime.strftime(dt.datetime.now(), "%d_%m_%Y") + '_Temp.jpg'
         plt.savefig(filename, bbox_inches='tight', pad_inches=0.1)
-        return
+        return filename
 
     def get_ambient(self, city=None, prov=None, country=None, api_key=None):
         # The below is to allow for testing without having to explicitly call the location and api key
