@@ -32,7 +32,10 @@ class TempMonitor:
         times = times if times is not None else [t.strftime("%H:%M") for t in self.cpu_temps['times']]
         temps = temps if temps is not None else self.cpu_temps['temps']
         ambients = self.ambient_temps['temps']
-        plt.plot(times, temps, 'ro', times, ambients, 'bs')
+        if ambients:
+            plt.plot(times, temps, 'ro', times, ambients, 'bs')
+        else:
+            plt.plot(times, temps, 'ro')
         plt.xlabel('Time')
         plt.ylabel('Temp (degC)')
         filename = dt.datetime.strftime(dt.datetime.now(), "%d_%m_%Y") + '_Temp.jpg'
