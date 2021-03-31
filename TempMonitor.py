@@ -61,7 +61,7 @@ class TempMonitor:
     def save_log(self):
         with open('temp_log.txt', 'w') as f:
             for i in range(len(self.cpu_temps.values())):
-                temp = list(self.cpu_temps.values())[0][i]
-                time_dt = list(self.cpu_temps.values())[1][i]
+                temp = self.cpu_temps['temps'][i]
+                time_dt = self.cpu_temps['times'][i]
                 time_str = time_dt.strftime("%D/%M/%Y %H:%M:%S")
                 f.write(f'Time: {time_str}, temp: {temp}\n')
