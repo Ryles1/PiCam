@@ -31,11 +31,11 @@ class TempMonitor:
     def line_plot(self, times=None, temps=None):
         times = times if times is not None else [t.strftime("%H:%M") for t in self.cpu_temps['times']]
         temps = temps if temps is not None else self.cpu_temps['temps']
-        #TODO: add in a second plot for ambient temps
-        plt.plot(times, temps)
+        ambients = self.ambient_temps['temps']
+        plt.plot(times, temps, 'ro', times, ambients, 'bs')
         plt.xlabel('Time')
         plt.ylabel('Temp (degC)')
-        filename = dt.datetime.strftime(dt.datetime.now(), "%d_%m_%Y") + '_Temp.png'
+        filename = dt.datetime.strftime(dt.datetime.now(), "%d_%m_%Y") + '_Temp.jpg'
         plt.savefig(filename, bbox_inches='tight', pad_inches=0.1)
         return
 
@@ -54,3 +54,11 @@ class TempMonitor:
         weather_data = json.loads(data)
         ambient_temp = float(weather_data['main']['temp'])
         return ambient_temp
+
+    def save_log(self):
+        with open('temp_log.txt', 'w') as f:
+            for i in range(len(self.cpu_temps.values())):
+                temp = list(self.cpu_temps.values())[0][i]
+                time_dt = list(self.cpu_temps.values())[1][i]
+                time_str = time_dt.strftime("%D/%M/%Y %H:%M:%S")
+                f.write(f'Time: {time_str}, temp: {temp}')

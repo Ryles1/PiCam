@@ -15,6 +15,7 @@ CITY = getenv('CITY')
 PROVINCE = getenv('PROVINCE')
 COUNTRY = getenv('COUNTRY')
 
+
 if __name__ == '__main__':
     m = TempMonitor.TempMonitor(CITY, PROVINCE, COUNTRY, API_KEY)
     # TODO: UPDATE THIS TO TAKE ARGUMENT FLAGS FOR TIME, MEASUREMENTS
@@ -30,18 +31,10 @@ if __name__ == '__main__':
         if diff > fifteen:
             m.get_temps()
         elif keyboard.is_pressed('q'):
-            with open('temp_log.txt', 'w') as f:
-                for i in range(len(m.cpu_temps.values())):
-                    temp = list(m.cpu_temps.values())[0][i]
-                    time_dt = list(m.cpu_temps.values())[1][i]
-                    time_str = time_dt.strftime("%D/%M/%Y %H:%M:%S")
-                    f.write(f'Time: {time_str}, temp: {temp}')
+            m.save_log()
             m.line_plot()
             sys.exit()
-    with open('temp_log.txt', 'w') as f:
-        for i in range(len(m.cpu_temps.values())):
-            temp = list(m.cpu_temps.values())[0][i]
-            time_dt = list(m.cpu_temps.values())[1][i]
-            time_str = time_dt.strftime("%D/%M/%Y %H:%M:%S")
-            f.write(f'Time: {time_str}, temp: {temp}')
+    m.save_log()
     m.line_plot()
+
+# TODO: email figure to myself
