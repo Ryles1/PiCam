@@ -64,4 +64,4 @@ class TempMonitor:
                 temp = list(self.cpu_temps.values())[0][i]
                 time_dt = list(self.cpu_temps.values())[1][i]
                 time_str = time_dt.strftime("%D/%M/%Y %H:%M:%S")
-                f.write(f'Time: {time_str}, temp: {temp}')
+                f.write(f'Time: {time_str}, temp: {temp}\n')
