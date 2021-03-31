@@ -29,7 +29,7 @@ class TempMonitor:
         return
 
     def line_plot(self, times=None, temps=None):
-        times = times if times is not None else [t.strftime("%H:%M") for t in self.cpu_temps['times']]
+        times = times if times is not None else [t.strftime("%I:%M") for t in self.cpu_temps['times']]
         temps = temps if temps is not None else self.cpu_temps['temps']
         ambients = self.ambient_temps['temps']
         if ambients:
