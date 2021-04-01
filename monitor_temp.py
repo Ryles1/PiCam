@@ -2,11 +2,12 @@
 
 import sys
 import TempMonitor
-from os import getenv
+from os import getenv, listdir
 import dotenv
 import datetime
 import smtplib
 import ssl
+from email.message import EmailMessage
 
 
 dotenv.load_dotenv()
@@ -17,20 +18,35 @@ PROVINCE = getenv('PROVINCE')
 COUNTRY = getenv('COUNTRY')
 FROM_ADDR = getenv('FROM_ADDR')
 TO_ADDR = getenv('TO_ADDR')
+PASSWORD = getenv('PASSWORD')
+
 
 def send_graph(filename):
+    # gather message data
     global FROM_ADDR, TO_ADDR
     today = datetime.datetime.today().isoformat()
     port = 587
-    message = f'''\
-        Subject:  Temperature graph from PiCam!
+    subject = f'Temperature graph on {today} from PiCam!'
+    body = 'See attached graph!'
 
-        Message: See attached graph! '''
+    # create the email message
+    msg = EmailMessage()
+    msg['Subject'] = subject
+    msg['From'] = FROM_ADDR
+    msg['To'] = TO_ADDR
+    msg['Body'] = body
+
+    # load the jpg
+    with open(filename, 'rb') as f:
+        img_data = f.read()
+    msg.add_attachment(img_data, maintype='image', subtype='image/jpeg')
+
+    # log in to server and send mail
     context = ssl.create_default_context()
     with smtplib.SMTP('smtp.office365.com', port) as server:
         server.starttls(context=context)
-        server.login(FROM_ADDR, '0qk6yd70')
-        server.sendmail(FROM_ADDR, TO_ADDR, message)
+        server.login(FROM_ADDR, PASSWORD)
+        server.send_message(msg, FROM_ADDR, TO_ADDR)
 
 
 if __name__ == '__main__':
@@ -51,5 +67,3 @@ if __name__ == '__main__':
     m.save_log()
     filename = m.line_plot()
     send_graph(filename)
-
-# TODO: email figure to myself

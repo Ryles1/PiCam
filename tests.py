@@ -3,6 +3,7 @@ from TempMonitor import TempMonitor
 import dotenv
 from os import getenv, listdir
 import datetime
+from monitor_temp import send_graph
 
 dotenv.load_dotenv()
 API_KEY = getenv('WEATHER_API')
@@ -28,6 +29,8 @@ class TestTempMonitor(unittest.TestCase):
         ambient = m.get_ambient()
         self.assertIsNotNone(ambient, msg='Test failed - ambient is None')
 
+    def test_send(self):
+        send_graph('test.jpg')
 
 if __name__ == '__main__':
     unittest.main()
