@@ -24,7 +24,7 @@ PASSWORD = getenv('PASSWORD')
 def send_graph(filename):
     # gather message data
     global FROM_ADDR, TO_ADDR
-    today = datetime.datetime.today().isoformat()
+    today = datetime.datetime.today().strftime('%D-%Y')
     port = 587
     subject = f'Temperature graph on {today} from PiCam!'
     body = 'See attached graph!'
