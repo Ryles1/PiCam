@@ -31,15 +31,16 @@ def send_graph(filename):
 
     # create the email message
     msg = EmailMessage()
+    msg.set_content(body)
     msg['Subject'] = subject
     msg['From'] = FROM_ADDR
     msg['To'] = TO_ADDR
-    msg['Body'] = body
+
 
     # load the jpg
     with open(filename, 'rb') as f:
         img_data = f.read()
-    msg.add_attachment(img_data, maintype='image', subtype='image/jpeg')
+    msg.add_attachment(img_data, maintype='image', subtype='jpeg')
 
     # log in to server and send mail
     context = ssl.create_default_context()
